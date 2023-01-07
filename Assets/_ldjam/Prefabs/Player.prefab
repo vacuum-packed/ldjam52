@@ -45,7 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3217c0a8f65f65468c8987f5c3976ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placeableObjectPrefab: {fileID: 0}
+  placeableObjectPrefab: {fileID: 1209783395096659307, guid: 81a51fcbf04d12947b2389f0b2155b23,
+    type: 3}
 --- !u!114 &5373775416851519220
 MonoBehaviour:
   m_ObjectHideFlags: 0

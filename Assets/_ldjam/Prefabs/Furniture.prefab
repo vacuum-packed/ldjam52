@@ -85,7 +85,32 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 9aaf75225f615bc45ba22cf3eb5085b3,
         type: 3}
       propertyPath: m_Name
-      value: Furniture Variant
+      value: Furniture
+      objectReference: {fileID: 0}
+    - target: {fileID: 2489159159464621496, guid: 9aaf75225f615bc45ba22cf3eb5085b3,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.0750676
+      objectReference: {fileID: 0}
+    - target: {fileID: 2489159159464621496, guid: 9aaf75225f615bc45ba22cf3eb5085b3,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.0619
+      objectReference: {fileID: 0}
+    - target: {fileID: 2489159159464621496, guid: 9aaf75225f615bc45ba22cf3eb5085b3,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.0619
+      objectReference: {fileID: 0}
+    - target: {fileID: 2489159159464621496, guid: 9aaf75225f615bc45ba22cf3eb5085b3,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.53
+      objectReference: {fileID: 0}
+    - target: {fileID: 2550463727306718371, guid: 9aaf75225f615bc45ba22cf3eb5085b3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3024621452840433635, guid: 9aaf75225f615bc45ba22cf3eb5085b3,
         type: 3}
