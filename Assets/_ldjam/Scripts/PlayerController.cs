@@ -14,11 +14,12 @@ public class PlayerController : MonoBehaviour
     {
         _camera = Camera.main;
         _placeableObjectInstance = Instantiate(placeableObjectPrefab);
-        _placeableObjectInstance.transform.position = new Vector3(0,100,0);
+        _placeableObjectInstance.transform.position = new Vector3(0, 100, 0);
     }
-    
+
     public void OnFire(InputAction.CallbackContext context)
     {
+        if (context.action.phase != InputActionPhase.Canceled) return;
         _placeableObjectInstance.transform.position = _lastValidPosition;
     }
 
@@ -30,6 +31,5 @@ public class PlayerController : MonoBehaviour
         {
             _lastValidPosition = raycastHit.point;
         }
-        
     }
 }
