@@ -5,9 +5,6 @@ namespace _ldjam.Scripts
     public class RobotController : MonoBehaviour
     {
         [SerializeField]
-        private LayerMask obstacleLayer;
-        
-        [SerializeField]
         private float velocity;
 
         private Rigidbody _rigidbody;
@@ -39,7 +36,7 @@ namespace _ldjam.Scripts
 
         private void ReflectOnObstacle(Collision collision)
         {
-            if (collision.gameObject.layer != obstacleLayer)
+            if (collision.gameObject.layer != LayerMask.NameToLayer("Obstacle"))
             {
                 return;
             }
@@ -51,7 +48,11 @@ namespace _ldjam.Scripts
             _rigidbody.angularVelocity = Vector3.zero;
 
             var forward = transform.forward;
-            var newDirection = Vector3.Reflect(forward, contactPoint.normal);
+            var forward2D = new Vector2(forward.x, forward.z);
+            var normal2D = new Vector2(contactPoint.normal.x, contactPoint.normal.z);
+            var newDirection2D = Vector2.Reflect(forward2D, normal2D);
+            var newDirection = new Vector3(newDirection2D.x, 0, newDirection2D.y);
+            // var newDirection = Vector3.Reflect(forward, contactPoint.normal);
             Debug.DrawRay(contactPoint.point, newDirection, Color.green, 10);
 
             var lookRotation = Quaternion.LookRotation(newDirection);
