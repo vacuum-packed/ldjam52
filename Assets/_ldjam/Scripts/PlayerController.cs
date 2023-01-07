@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour
 
     Camera _camera;
     private GameObject _placebleObjectInstance;
+
+    private Vector2 _mousePosition;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,16 +29,18 @@ public class PlayerController : MonoBehaviour
     public void OnFire(InputAction.CallbackContext context)
     {
         
+
+        
     }
 
     public void OnLook(InputAction.CallbackContext context)
     {
-        var mousePosition = context.ReadValue<Vector2>();
-        
-        mousePosition = _camera.ScreenToWorldPoint(mousePosition);
-        var ray = new Ray(mousePosition, Vector3.down);
-        if (Physics.Raycast(ray, out var raycastHit, Single.PositiveInfinity, LayerMask.NameToLayer("Floor")))
+        _mousePosition = context.ReadValue<Vector2>();
+        var ray = _camera.ScreenPointToRay(_mousePosition);
+        if (Physics.Raycast(ray, out var raycastHit, 1000, LayerMask.GetMask("Floor")))
         {
+            Debug.DrawRay(raycastHit.point, raycastHit.normal);
+            Debug.Log("Raycasthit");
         }
         
     }
