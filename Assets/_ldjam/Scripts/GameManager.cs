@@ -31,4 +31,9 @@ public class GameManager : MonoBehaviour
     {
         score = 0;
     }
+
+    private void OnDisable()
+    {
+        pointsEvent.onEventRaised -= OnPointsGained;
+    }
 }
