@@ -16,4 +16,4 @@ dust as fast as possible. The faster you can leave, the better!
 
 ## Controls
 * Left mouse click: place foot
-* Scroll wheel: rotate foot! 
+* Scroll wheel: rotate foot
