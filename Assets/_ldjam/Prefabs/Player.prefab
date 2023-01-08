@@ -52,6 +52,7 @@ MonoBehaviour:
   rightFoot: {fileID: 1088721012223107859}
   maxFoodDistance: 0.762
   indicatorGameObject: {fileID: 868254609876023495}
+  circle: {fileID: 0}
   effect: {fileID: 8196047482251418729}
   isPositionValidEvent: {fileID: 11400000, guid: 2258a10bb2aa6394eaf1238fc08b62da,
     type: 2}
@@ -189,7 +190,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3086419802217841412}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!2083052967 &8196047482251418729
 VisualEffect:
@@ -414,6 +415,11 @@ PrefabInstance:
     - target: {fileID: 4385165454385979117, guid: bf650c96487875144a06b6f7783a0010,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7146804475637869892, guid: bf650c96487875144a06b6f7783a0010,
+        type: 3}
+      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
