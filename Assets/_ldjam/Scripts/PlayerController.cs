@@ -1,6 +1,7 @@
 using _ldjam.Scripts.ScriptableObjects.Events;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.VFX;
 
 public class PlayerController : MonoBehaviour
 {
@@ -24,6 +25,9 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private GameObject indicatorGameObject;
+
+    [SerializeField]
+    private VisualEffect effect;
 
     [Header("Broadcasting Events")]
     [SerializeField]
@@ -74,6 +78,8 @@ public class PlayerController : MonoBehaviour
                 _currentPlaceFoot = Foot.Left;
                 break;
         }
+
+        effect.Play();
     }
 
     public void OnLook(InputAction.CallbackContext context)
