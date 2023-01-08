@@ -1,5 +1,9 @@
 # ldjam52
 
+<div align="center">
+<img src="https://github.com/vacuum-packed/ldjam52/blob/main/ChaosMode.png" width="400">
+</div>
+
 Welcome to Chaos Mode!
 A game created in the *Ludum Dare* Game Jam 52 under the theme *Harvest*.
 
