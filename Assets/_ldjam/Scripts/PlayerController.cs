@@ -40,6 +40,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private BoolEventChannelSO isPositionValidEvent;
 
+    private AudioSource _audioSource;
+
     private void OnEnable()
     {
         roundStartedEvent.onEventRaised += OnRoundStarted;
@@ -54,6 +56,7 @@ public class PlayerController : MonoBehaviour
     {
         _camera = Camera.main;
         _layer = LayerMask.NameToLayer("Floor");
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -94,6 +97,7 @@ public class PlayerController : MonoBehaviour
         // Handle vfx
         effect.transform.localPosition = indicator.localPosition;
         effect.Play();
+        _audioSource.Play();
 
         _scrolled = false;
         _leftFootPlaced = !_leftFootPlaced;

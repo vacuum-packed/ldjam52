@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using DG.Tweening;
 using UnityEngine;
@@ -24,12 +25,18 @@ namespace _ldjam.Scripts
         [SerializeField]
         private float timeout;
 
+        [SerializeField]
+        private AudioSource _pickupSound;
+
         [Header("Listening Events")]
         [SerializeField]
         private VoidEventChannelSO onGameStarted;
 
         [SerializeField]
         private VoidEventChannelSO onGameEnded;
+
+        [SerializeField]
+        private IntegerEventChannelSO pickup;
 
 
         private bool _running;
@@ -40,11 +47,25 @@ namespace _ldjam.Scripts
         private float _rotationStarttime;
 
         private float _stuckTime;
+        private AudioSource _audioSource;
 
         private void OnEnable()
         {
             onGameStarted.onEventRaised += OnGameStarted;
             onGameEnded.onEventRaised += OnGameEnded;
+            pickup.onEventRaised += OnPickup;
+        }
+
+        private void OnDisable()
+        {
+            onGameStarted.onEventRaised -= OnGameStarted;
+            onGameEnded.onEventRaised -= OnGameEnded;
+            pickup.onEventRaised -= OnPickup;
+        }
+
+        private void OnPickup(int arg0)
+        {
+            _pickupSound.Play();
         }
 
         private void OnGameStarted()
@@ -75,6 +96,7 @@ namespace _ldjam.Scripts
         private void Start()
         {
             _rigidbody = gameObject.GetComponent<Rigidbody>();
+            _audioSource = GetComponent<AudioSource>();
         }
 
         // Update is called once per frame
@@ -128,6 +150,7 @@ namespace _ldjam.Scripts
             {
                 return;
             }
+            _audioSource.Play();
 
             ReflectOnObstacle(collision);
         }
