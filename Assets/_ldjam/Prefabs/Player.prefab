@@ -47,6 +47,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   placeableObjectPrefab: {fileID: 1209783395096659307, guid: 81a51fcbf04d12947b2389f0b2155b23,
     type: 3}
+  indicatorGameObject: {fileID: 0}
+  isPositionValidEvent: {fileID: 11400000, guid: 2258a10bb2aa6394eaf1238fc08b62da,
+    type: 2}
 --- !u!114 &5373775416851519220
 MonoBehaviour:
   m_ObjectHideFlags: 0
