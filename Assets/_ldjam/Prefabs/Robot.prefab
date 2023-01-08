@@ -110,7 +110,7 @@ MonoBehaviour:
   startPosition: {x: 0.6, y: 0.011, z: -2.883}
   acceleration: 1
   maxVelocity: 1
-  rotationDuration: 2
+  rotationDuration: 0.5
   timeout: 5
   onGameStarted: {fileID: 11400000, guid: 1cf3d2bbfc0f9b94bb8f913da5d22116, type: 2}
   onGameEnded: {fileID: 11400000, guid: ba339bf768a0dea4f82c7bfb2f0a603e, type: 2}
