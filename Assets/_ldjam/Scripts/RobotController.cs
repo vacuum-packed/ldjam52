@@ -154,7 +154,7 @@ namespace _ldjam.Scripts
 
             var angle = _lookRotation.eulerAngles - _rigidbody.rotation.eulerAngles;
 
-            var scaledDuration = rotationDuration * Mathf.Abs(angle.y) / 360;
+            var scaledDuration = rotationDuration * Mathf.Abs(angle.y) / 360f;
 
             await _rigidbody.DORotate(_lookRotation.eulerAngles, scaledDuration).AsyncWaitForCompletion();
 
