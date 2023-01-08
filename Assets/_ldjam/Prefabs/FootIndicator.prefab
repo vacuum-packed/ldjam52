@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8a647ce38df0ff4ab36af2d08c7b865, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  validPositionColor: {r: 0, g: 1, b: 0.08463907, a: 0.6117647}
+  validPositionColor: {r: 1, g: 1, b: 1, a: 0.24705882}
   invalidPositionColor: {r: 0.9716981, g: 0, b: 0, a: 0.6117647}
   isPositionValidEvent: {fileID: 11400000, guid: 2258a10bb2aa6394eaf1238fc08b62da,
     type: 2}

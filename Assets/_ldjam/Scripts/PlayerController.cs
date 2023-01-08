@@ -15,9 +15,6 @@ public class PlayerController : MonoBehaviour
     private Transform indicator;
 
     [SerializeField]
-    private Transform pivot;
-
-    [SerializeField]
     private float startFootDistance = .1f;
 
     [SerializeField]
@@ -29,12 +26,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private VisualEffect effect;
 
-    private bool _leftFootPlaced = true;
+    private bool _leftFootPlaced;
     private Camera _camera;
     private bool _isOnLayer;
     private int _layer;
     private bool _scrolled;
-    private readonly Vector3 _outOfBoundsPosition = new(0, 100, 0);
 
     [Header("Listening Events")]
     [SerializeField]
@@ -77,7 +73,8 @@ public class PlayerController : MonoBehaviour
         leftFoot.localRotation = Quaternion.identity;
         rightFoot.localPosition = Vector3.right * startFootDistance;
         rightFoot.localRotation = Quaternion.identity;
-        pivot.localPosition = Vector3.zero;
+        indicator.localScale = Vector3.one;
+        _leftFootPlaced = false;
     }
 
     public void OnFire(InputAction.CallbackContext context)
@@ -90,10 +87,9 @@ public class PlayerController : MonoBehaviour
         foot.localPosition = indicator.localPosition;
         foot.localRotation = indicator.localRotation;
 
-        // Handle radius indicator
-        Vector3 avgPos = (leftFoot.localPosition + rightFoot.localPosition) * .5f;
-        avgPos.y = pivot.localPosition.y;
-        pivot.localPosition = avgPos;
+        Vector3 indicatorScale = indicator.localScale;
+        indicatorScale.x = -indicatorScale.x;
+        indicator.localScale = indicatorScale;
 
         // Handle vfx
         effect.transform.localPosition = indicator.localPosition;
@@ -111,10 +107,11 @@ public class PlayerController : MonoBehaviour
             return;
 
         // Clamp strid
+        Vector3 center = (leftFoot.position + rightFoot.position) * .5f;
         Vector3 hitPosition = raycastHit.point;
-        Vector3 lookDir = raycastHit.point - pivot.position;
+        Vector3 lookDir = raycastHit.point - center;
         Vector3 stride = Vector3.ClampMagnitude(lookDir, maxFootDistance);
-        Vector3 footPosition = pivot.position + stride;
+        Vector3 footPosition = center + stride;
 
         // Raycast again with clamped position
         ray = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(footPosition));
