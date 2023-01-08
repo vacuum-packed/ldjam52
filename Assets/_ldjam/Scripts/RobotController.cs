@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -18,6 +19,9 @@ namespace _ldjam.Scripts
 
         private bool _isCollided;
 
+        [SerializeField]
+        private float rotationDuration;
+
         [Header("Listening Events")]
         [SerializeField]
         private VoidEventChannelSO onGameStarted;
@@ -26,6 +30,9 @@ namespace _ldjam.Scripts
         private VoidEventChannelSO onGameEnded;
 
         private bool _running;
+        private Quaternion _lookRotation;
+        private float _rotationStarttime;
+        private float _elapsedTime;
 
         private void OnEnable()
         {
@@ -50,7 +57,6 @@ namespace _ldjam.Scripts
         {
             transform.position = startPosition;
             var angle = Random.Range(0, 360);
-            Debug.Log(angle);
             var euler = new Vector3(0, angle, 0);
             var newRotation = new Quaternion();
             newRotation.eulerAngles = euler;
@@ -85,15 +91,17 @@ namespace _ldjam.Scripts
 
         private void OnCollisionEnter(Collision collision)
         {
-            ReflectOnObstacle(collision);
-        }
-
-        private void ReflectOnObstacle(Collision collision)
-        {
             if (collision.gameObject.layer != LayerMask.NameToLayer("Obstacle"))
             {
                 return;
             }
+
+            ReflectOnObstacle(collision);
+        }
+
+        private async void ReflectOnObstacle(Collision collision)
+        {
+            _isCollided = true;
 
             var contactPoint = collision.GetContact(0);
             Debug.DrawRay(contactPoint.point, contactPoint.normal, Color.red, 10);
@@ -106,11 +114,18 @@ namespace _ldjam.Scripts
             var normal2D = new Vector2(contactPoint.normal.x, contactPoint.normal.z);
             var newDirection2D = Vector2.Reflect(forward2D, normal2D);
             var newDirection = new Vector3(newDirection2D.x, 0, newDirection2D.y);
-            // var newDirection = Vector3.Reflect(forward, contactPoint.normal);
+            
             Debug.DrawRay(contactPoint.point, newDirection, Color.green, 10);
 
-            var lookRotation = Quaternion.LookRotation(newDirection);
-            _rigidbody.rotation = lookRotation;
+            _lookRotation = Quaternion.LookRotation(newDirection);
+
+            var angle = _lookRotation.eulerAngles - _rigidbody.rotation.eulerAngles;
+
+            var scaledDuration = rotationDuration * Mathf.Abs(angle.y) / 360;
+
+            await _rigidbody.DORotate(_lookRotation.eulerAngles, scaledDuration).AsyncWaitForCompletion();
+
+            _isCollided = false;
         }
     }
 }
