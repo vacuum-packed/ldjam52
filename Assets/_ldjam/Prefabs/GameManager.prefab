@@ -9,8 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5859313995886489055}
+  - component: {fileID: 3353638833953899051}
   m_Layer: 0
-  m_Name: Pickups
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38,6 +39,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3353638833953899051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8970275834635116586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4243f044de924d14382bfcea19beceb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  harvestEvent: {fileID: 11400000, guid: 370d71f4c2adfe14797b0bcfc4df639b, type: 2}
+  roundStartedEvent: {fileID: 11400000, guid: 1cf3d2bbfc0f9b94bb8f913da5d22116, type: 2}
+  roundEndedEvent: {fileID: 11400000, guid: ba339bf768a0dea4f82c7bfb2f0a603e, type: 2}
 --- !u!1001 &3969316113275985105
 PrefabInstance:
   m_ObjectHideFlags: 0

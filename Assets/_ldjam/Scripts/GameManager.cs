@@ -1,39 +1,65 @@
+using System.Globalization;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField]
-    private int score;
+    private static int pickupCount;
+    private static int totalPickupCount;
+    private static float startTime;
+
+    public static float Score => Time.time - startTime;
+    public static string ScoreString
+    {
+        get
+        {
+            NumberFormatInfo format = new() { NumberDecimalDigits = 1 };
+            return Score.ToString("N", format);
+        }
+    }
 
     [Header("Listening Events")]
     [SerializeField]
-    private IntegerEventChannelSO pointsEvent;
+    private VoidEventChannelSO roundStartedEvent;
+
+    [SerializeField]
+    private IntegerEventChannelSO harvestEvent;
 
     [Header("Broadcasting Events")]
-    [SerializeField]
-    private IntegerEventChannelSO scoreBroadcastEvent;
-    
 
+    [SerializeField]
+    private VoidEventChannelSO roundEndedEvent;
+
+    private void Start()
+    {
+        totalPickupCount = GetComponentsInChildren<Harvestable>().Length;
+    }
 
     private void OnEnable()
     {
-        pointsEvent.onEventRaised += OnPointsGained;
-    }
-
-    private void OnPointsGained(int value)
-    {
-        score += value;
-        scoreBroadcastEvent.RaiseEvent(score);
-    }
-    
-
-    void Start()
-    {
-        score = 0;
+        roundStartedEvent.onEventRaised += OnRoundStarted;
+        harvestEvent.onEventRaised += OnHarvest;
     }
 
     private void OnDisable()
     {
-        pointsEvent.onEventRaised -= OnPointsGained;
+        roundStartedEvent.onEventRaised -= OnRoundStarted;
+        harvestEvent.onEventRaised -= OnHarvest;
+    }
+
+    private void OnHarvest(int value)
+    {
+        if (++pickupCount >= totalPickupCount)
+            EndRound();
+    }
+
+    private void OnRoundStarted()
+    {
+        startTime = Time.time;
+        pickupCount = 0;
+    }
+
+    private void EndRound()
+    {
+        roundEndedEvent.RaiseEvent();
     }
 }
