@@ -11,6 +11,6 @@ public class Harvestable : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         pickupEvent.RaiseEvent(points);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        totalPickupCount = GetComponentsInChildren<Harvestable>().Length;
+        totalPickupCount = GetComponentsInChildren<Harvestable>(false).Length;
     }
 
     private void OnEnable()
@@ -54,8 +54,11 @@ public class GameManager : MonoBehaviour
 
     private void OnRoundStarted()
     {
-        startTime = Time.time;
+        foreach (Harvestable pickup in GetComponentsInChildren<Harvestable>(true))
+            pickup.gameObject.SetActive(true);
+
         pickupCount = 0;
+        startTime = Time.time;
     }
 
     private void EndRound()
