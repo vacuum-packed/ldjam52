@@ -34,6 +34,7 @@ Transform:
   - {fileID: 3009085683632675024}
   - {fileID: 3086419802217841412}
   - {fileID: 976681157253609726}
+  - {fileID: 701055727741136942}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -52,11 +53,12 @@ MonoBehaviour:
   leftFoot: {fileID: 3914786269900829832}
   rightFoot: {fileID: 3009085683632675024}
   indicator: {fileID: 3086419802217841412}
-  radiusIndicator: {fileID: 976681157253609726}
+  pivot: {fileID: 976681157253609726}
   startFootDistance: 0.1
   maxFootDistance: 0.762
   scrollSensitivity: 6
   effect: {fileID: 8196047482251418729}
+  roundStartedEvent: {fileID: 11400000, guid: 1cf3d2bbfc0f9b94bb8f913da5d22116, type: 2}
   isPositionValidEvent: {fileID: 11400000, guid: 2258a10bb2aa6394eaf1238fc08b62da,
     type: 2}
 --- !u!114 &5373775416851519220
@@ -192,8 +194,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3086419802217841412}
-  m_RootOrder: 0
+  m_Father: {fileID: 5373775416851519218}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!2083052967 &8196047482251418729
 VisualEffect:
