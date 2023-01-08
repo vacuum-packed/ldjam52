@@ -5,26 +5,26 @@ using UnityEngine.VFX;
 
 public class PlayerController : MonoBehaviour
 {
-    private enum Foot
-    {
-        None,
-        Left,
-        Right
-    }
+    [SerializeField]
+    private Transform leftFoot;
 
     [SerializeField]
-    private GameObject leftFoot;
+    private Transform rightFoot;
 
     [SerializeField]
-    private GameObject rightFoot;
+    private Transform indicator;
 
     [SerializeField]
-    private float maxFoodDistance;
-
-    private float _maxFoodDistanceSqr;
+    private Transform radiusIndicator;
 
     [SerializeField]
-    private GameObject indicatorGameObject;
+    private float startFootDistance = .1f;
+
+    [SerializeField]
+    private float maxFootDistance = .762f;
+
+    [SerializeField]
+    private float scrollSensitivity = 6;
 
     [SerializeField]
     private VisualEffect effect;
@@ -33,12 +33,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private BoolEventChannelSO isPositionValidEvent;
 
-
-    private GameObject _lastFootPlaced;
-    private GameObject _currentFootToPlace;
-    private Foot _currentPlaceFoot;
+    private Transform _lastFootPlaced;
+    private bool _leftFootPlaced = true;
+    private float _maxFoodDistanceSqr;
     private Camera _camera;
-    private Vector3 _lastPosition;
     private bool _isPositionValid;
     private int _layer;
     private readonly Vector3 _outOfBoundsPosition = new(0, 100, 0);
@@ -47,68 +45,50 @@ public class PlayerController : MonoBehaviour
     {
         _camera = Camera.main;
         _layer = LayerMask.NameToLayer("Floor");
-        _currentPlaceFoot = Foot.Left;
-        leftFoot.transform.position = Vector3.zero;
-        rightFoot.transform.position = _outOfBoundsPosition;
-        _lastFootPlaced = leftFoot;
-        _maxFoodDistanceSqr = maxFoodDistance * maxFoodDistance;
+        leftFoot.localPosition = Vector3.right * -startFootDistance;
+        rightFoot.localPosition = Vector3.right * startFootDistance;
+        _maxFoodDistanceSqr = maxFootDistance * maxFootDistance;
+    }
+
+    private void Update()
+    {
+        float yRot = indicator.localEulerAngles.y;
+        yRot += Input.mouseScrollDelta.y * scrollSensitivity;
+        indicator.localRotation = Quaternion.AngleAxis(yRot, Vector3.up);
     }
 
     public void OnFire(InputAction.CallbackContext context)
     {
-        if (context.action.phase != InputActionPhase.Canceled || !_isPositionValid) return;
-        switch (_currentPlaceFoot)
-        {
-            case Foot.None:
-                leftFoot.transform.position = _lastPosition;
-                rightFoot.transform.position = _outOfBoundsPosition;
-                _lastFootPlaced = leftFoot;
-                _currentPlaceFoot = Foot.Left;
-                break;
-            case Foot.Left:
-                rightFoot.transform.position = _lastPosition;
-                leftFoot.transform.position = _outOfBoundsPosition;
-                _lastFootPlaced = rightFoot;
-                _currentPlaceFoot = Foot.Right;
-                break;
-            case Foot.Right:
-                leftFoot.transform.position = _lastPosition;
-                rightFoot.transform.position = _outOfBoundsPosition;
-                _lastFootPlaced = leftFoot;
-                _currentPlaceFoot = Foot.Left;
-                break;
-        }
+        if (context.action.phase != InputActionPhase.Canceled || !_isPositionValid)
+            return;
+
+        _lastFootPlaced = _leftFootPlaced ? rightFoot : leftFoot;
+        _lastFootPlaced.SetPositionAndRotation(indicator.position, indicator.rotation);
+        Vector3 avgPos = (leftFoot.localPosition + rightFoot.localPosition) * .5f;
+        avgPos.y = radiusIndicator.localPosition.y;
+        radiusIndicator.localPosition = avgPos;
 
         effect.Play();
+        _leftFootPlaced = !_leftFootPlaced;
     }
 
     public void OnLook(InputAction.CallbackContext context)
     {
         var mousePosition = context.ReadValue<Vector2>();
         var ray = _camera.ScreenPointToRay(mousePosition);
-        if (Physics.Raycast(ray, out var raycastHit, 10000))
-        {
-            _lastPosition = raycastHit.point;
-            indicatorGameObject.transform.position = _lastPosition;
-            if (raycastHit.transform.gameObject.layer == _layer && IsInRadius())
-            {
-                _isPositionValid = true;
-                isPositionValidEvent.RaiseEvent(true);
-            }
-            else
-            {
-                _isPositionValid = false;
-                isPositionValidEvent.RaiseEvent(false);
-            }
-        }
-        else
-        {
-            _lastPosition = _outOfBoundsPosition;
-        }
+        if (!Physics.Raycast(ray, out var raycastHit, 10000))
+            return;
+
+        Vector3 hitPosition = raycastHit.point;
+        indicator.position = hitPosition;
+
+        bool valid = raycastHit.transform.gameObject.layer == _layer && IsInRadius(hitPosition);
+        _isPositionValid = valid;
+        isPositionValidEvent.RaiseEvent(valid);
     }
 
-    private bool IsInRadius()
+    private bool IsInRadius(Vector3 position)
     {
-        return (_lastFootPlaced.transform.position - _lastPosition).sqrMagnitude <= _maxFoodDistanceSqr;
+        return (radiusIndicator.position - position).sqrMagnitude <= _maxFoodDistanceSqr;
     }
 }
