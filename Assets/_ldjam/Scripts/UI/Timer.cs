@@ -30,7 +30,12 @@ public class Timer : MonoBehaviour
     private void Update()
     {
         if (updateTimer)
-            timer.text = GameManager.ScoreString;
+        {
+            var minutes = (int)GameManager.Score / 60;
+            var seconds = (int)GameManager.Score % 60;
+            var timerText = $"{minutes:D2}:{seconds:D2}";
+            timer.text = timerText;
+        }
     }
 
     private void OnRoundStarted()
