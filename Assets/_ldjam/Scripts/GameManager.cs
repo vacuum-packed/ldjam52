@@ -3,11 +3,18 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public enum GameState
+    {
+        RoundStarted,
+        RoundEnded
+    }
+    
     private static int pickupCount;
     private static int totalPickupCount;
     private static float startTime;
 
     public static float Score => Time.time - startTime;
+    
     public static string ScoreString
     {
         get
@@ -29,8 +36,11 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private VoidEventChannelSO roundEndedEvent;
 
+    public GameState CurrentGameState { get; private set; }
+
     private void Start()
     {
+        CurrentGameState = GameState.RoundEnded;
         totalPickupCount = GetComponentsInChildren<Harvestable>(false).Length;
     }
 
@@ -59,10 +69,12 @@ public class GameManager : MonoBehaviour
 
         pickupCount = 0;
         startTime = Time.time;
+        CurrentGameState = GameState.RoundStarted;
     }
 
     private void EndRound()
     {
         roundEndedEvent.RaiseEvent();
+        CurrentGameState = GameState.RoundEnded;
     }
 }
